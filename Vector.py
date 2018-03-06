@@ -41,7 +41,9 @@ class Vector:
 
     # Subtracts another vector from this vector
     def subtract(self, other):
-        return (other.x-self.x,other.y-self.y)
+        self.x-=other.x
+        self.y-=other.y
+        return self
 
     # Multiplies the vector by a scalar
     def multiply(self, k):
@@ -49,7 +51,11 @@ class Vector:
         self.x*=k
         self.y*=k
         return self
-
+    def multiplyVectors(self, other):
+        #return (self.x*k,self.y*k)
+        self.x = self.x*other.x
+        self.y = self.y*other.y
+        return self
     # Divides the vector by a scalar
     def divide(self, k):
         return (self.x/k,self.y/k)
