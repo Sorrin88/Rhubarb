@@ -19,7 +19,7 @@ class Player:
             self.moveRight = False
             self.moveLeft = False
             self.moveUp = False
-            self.moveDown = False
+          #  self.moveDown = False
             self.xVel = 0.0
             self.yVel = 0.0
             self.velocity = Vector(self.xVel,self.yVel)
@@ -46,18 +46,18 @@ class Player:
 
         if key == simplegui.KEY_MAP[self.up]:
             self.moveUp = True
-            self.moveDown = False
+        #    self.moveDown = False
 
-        if key == simplegui.KEY_MAP[self.down]:
-            self.moveDown = True
-            self.moveUp = False
+        # if key == simplegui.KEY_MAP[self.down]:
+        #     self.moveDown = True
+        #     self.moveUp = False
     def keyUp(self, key):
         if key == simplegui.KEY_MAP[self.right]:
             self.moveRight = False
         if key == simplegui.KEY_MAP[self.left]:
             self.moveLeft = False
-        if key == simplegui.KEY_MAP[self.down]:
-            self.moveDown = False
+        # if key == simplegui.KEY_MAP[self.down]:
+        #     self.moveDown = False
         if key == simplegui.KEY_MAP[self.up]:
             self.moveUp = False
     def collide(self):
@@ -82,20 +82,26 @@ class Player:
 
 
     def update(self,canvas):
-        if self.moveUp and self.velocity.getP()[1] < 10:
-                print(self.pos.getP()[1])
-                self.velocity.add(Vector(0,-10))
-        if self.moveDown and self.pos.getP()[1] < 500-self.frameHeight/2:
-                self.velocity.add(Vector(0,10))
-        if self.moveRight:
-            self.velocity.add(Vector(10,0))
-        if self.moveLeft:
-            self.velocity.add(Vector(-10,0))
+       # print(self.velocity.getP()[1])
+        self.addGravity()
+        if self.moveUp and self.velocity.getP()[1] < 9:
+                print(self.velocity.getP()[1])
+                self.velocity.add(Vector(0,-9))
+       # if self.moveDown and self.pos.getP()[1] < 500-self.frameHeight/2:
+       #         self.velocity.add(Vector(0,9))
+        if self.moveRight and self.velocity.getP()[0] < 9:
+            self.velocity.add(Vector(9,0))
+        if self.moveLeft and self.velocity.getP()[0] > -9:
+            self.velocity.add(Vector(-9,0))
         self.pos.add(self.velocity)
-        #print(self.pos.getP())
+        if self.pos.getP()[0] > 500-self.frameHeight/2:
+            self.pos = Vector(0,self.pos.getP()[1])
+        elif self.pos.getP()[0] < 0:
+            self.pos = Vector(500-self.frameHeight/2,self.pos.getP()[1])
+        print(self.pos.getP())
+        #print(500-self.frameHeight/2)
         canvas.draw_image(self.spriteSheet, (self.frameWidth * self.frameIndex[0] + self.frameCentreX, self.frameHeight * self.frameIndex[1] + self.frameCentreY),
                           (self.frameWidth, self.frameHeight), self.pos.getP(), (self.frameWidth, self.frameHeight))
         self.imgUpdate()
-        self.addGravity()
         self.frameCount+=1
 
