@@ -7,7 +7,7 @@ from Vector import *
 
 class Player:
 
-    def __init__(self, startingpos, spritesheet,width,height,rows,columns, up, left, down, right, lifepoints):
+    def __init__(self, startingpos, spritesheet,width,height,rows,columns, up, left, down, right,attack,lifepoints):
             self.GRAVITY = -9.81
             self.pos = startingpos
             self.spriteSheet = simplegui.load_image(spritesheet)
@@ -15,10 +15,12 @@ class Player:
             self.left = left
             self.down = down
             self.right = right
+            self.attack = attack
             self.lifePoints = lifepoints
             self.moveRight = False
             self.moveLeft = False
             self.moveUp = False
+            self.attacking = False
           #  self.moveDown = False
             self.xVel = 0.0
             self.yVel = 0.0
@@ -47,7 +49,8 @@ class Player:
         if key == simplegui.KEY_MAP[self.up]:
             self.moveUp = True
         #    self.moveDown = False
-
+        if key == simplegui.KEY_MAP[self.attack]:
+            self.attacking = True
         # if key == simplegui.KEY_MAP[self.down]:
         #     self.moveDown = True
         #     self.moveUp = False
@@ -60,6 +63,8 @@ class Player:
         #     self.moveDown = False
         if key == simplegui.KEY_MAP[self.up]:
             self.moveUp = False
+        if key == simplegui.KEY_MAP[self.attack]:
+            self.attacking = False
     def collide(self):
         pass
 
@@ -80,25 +85,29 @@ class Player:
             self.pos =  Vector(self.pos.getP()[0],500-self.frameHeight/2)
 
 
-
+    def getCoordinates(self):
+        return self.pos
     def update(self,canvas):
        # print(self.velocity.getP()[1])
         self.addGravity()
-        if self.moveUp and self.velocity.getP()[1] < 9:
-                print(self.velocity.getP()[1])
-                self.velocity.add(Vector(0,-9))
+        if self.moveUp and self.velocity.getP()[1] < 9.4:
+                #print(self.velocity.getP()[1])
+                self.velocity.add(Vector(0,-9.4))
        # if self.moveDown and self.pos.getP()[1] < 500-self.frameHeight/2:
        #         self.velocity.add(Vector(0,9))
         if self.moveRight and self.velocity.getP()[0] < 9:
             self.velocity.add(Vector(9,0))
         if self.moveLeft and self.velocity.getP()[0] > -9:
             self.velocity.add(Vector(-9,0))
+        if self.attacking:
+            print("boom")
         self.pos.add(self.velocity)
+
         if self.pos.getP()[0] > 500-self.frameHeight/2:
             self.pos = Vector(0,self.pos.getP()[1])
         elif self.pos.getP()[0] < 0:
             self.pos = Vector(500-self.frameHeight/2,self.pos.getP()[1])
-        print(self.pos.getP())
+        #print(self.pos.getP())
         #print(500-self.frameHeight/2)
         canvas.draw_image(self.spriteSheet, (self.frameWidth * self.frameIndex[0] + self.frameCentreX, self.frameHeight * self.frameIndex[1] + self.frameCentreY),
                           (self.frameWidth, self.frameHeight), self.pos.getP(), (self.frameWidth, self.frameHeight))
