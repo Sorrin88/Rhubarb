@@ -37,7 +37,7 @@ class Vector:
 
     # Negates the vector (makes it point in the opposite direction)
     def negate(self):
-        return (self.x*-1,self.y*-1)
+        return self.multiply(-1)
 
     # Subtracts another vector from this vector
     def subtract(self, other):
@@ -64,9 +64,7 @@ class Vector:
         return math.sqrt(self.x**self.x + self.y**self.y)
     # Normalizes the vector
     def normalize(self):
-        mag = self.getMagnitude()
-        self.x /= mag
-        self.y /= mag
+        return self.divide(self.lengh())
     # Returns a normalized version of the vector
     def getNormalized(self):
         mag = self.getMagnitude()
@@ -77,11 +75,16 @@ class Vector:
         return self.x * other.x + self.y + other.y
     # Returns the squared length of the vector
     def lengthSquared(self):
-        return self.getMagnitude()*self.getMagnitude()
-
+        # self.getMagnitude()*self.getMagnitude()
+        return self.x**2 + self.y**2
+    def lengh(self):
+        return math.sqrt(self.lengthSquared())
     # Reflect this vector on a normal
     def reflect(self, normal):
-        pass
+        n = normal.copy()
+        n.multiply(2*self.dot(normal))
+        self.subtract(n)
+        return self
 
     # Returns the angle between this vector and another one
     # You will need to use the arccosine function:
