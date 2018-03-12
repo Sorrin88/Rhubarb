@@ -65,9 +65,9 @@ class Player:
             self.moveUp = False
         if key == simplegui.KEY_MAP[self.attack]:
             self.attacking = False
-    def collide(self):
-        pass
-
+    def collide(self,normal):
+        self.velocity.multiply(0)
+        self.addGravity()
     def imgUpdate(self):
         if self.frameCount % 15 == 0:
             self.frameIndex[0] = (self.frameIndex[0] + 1) % self.COLUMNS
