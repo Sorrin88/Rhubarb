@@ -21,17 +21,8 @@ class Vector:
 
         # Returns a tuple with the point corresponding to the vector
 
-    def inte(self):
-        return Vector(int(self.x), int(self.y))
-
     def getP(self):
         return (self.x, self.y)
-
-    def getPx(self):
-        return (self.x)
-
-    def getPy(self):
-        return (self.y)
 
     # Returns a copy of the vector
     def copy(self):
