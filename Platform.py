@@ -11,6 +11,11 @@ class Platform:
         self.DISTANCE = 200
         self.coords = []
         self.platform = 1
+        self.yVal = 50
+        self.frameCount = 0
+    def rotateAnti(self,v):
+        return Vector(-v.y, v.x)
+
     def draw(self,canvas):
         x1 = random.randint(0,500)
         x2 = x1 + random.randint(-500,500)
@@ -43,7 +48,10 @@ class Platform:
     def drawLines(self,canvas):
         for i in range(self.platform-1):
             print(self.coords)
-            y = (i + 1) * 50
+            y = (i + 1) * self.yVal
             canvas.draw_line((self.coords[i][0], y),
                              (self.coords[i][1], y), 4, "red")
             print(self.platform)
+            # self.frameCount+=1
+            # if self.frameCount % 30 == 0:
+            #     self.yVal +=1
