@@ -10,39 +10,46 @@ class drawPlatforms:
         else:
             self.difficulty = 2
 
-
-        self.DISTANCE = 200
+        self.DISTANCE = 100
         self.coords = []
         self.platform = 1
-        self.yVal = 50
+        self.yVal = 140
         self.frameCount = 0
         self.numberOfPlatforms = numberOfPlatforms
+        self.createPlatforms()
+
+    def createPlatforms(self):
+        if self.platform <= self.numberOfPlatforms:
+            temp = Platform2(620 - self.yVal * self.platform)
+            print("made platform: ",self.platform)
+            self.coords.append(temp)
+            if self.platform > 1:
+                if not (abs(self.coords[self.platform-1].getx1() - self.coords[self.platform-2].getx1()) > self.DISTANCE*self.difficulty or \
+                    abs(self.coords[self.platform - 1].getx2() - self.coords[self.platform - 2].getx2()) > self.DISTANCE * self.difficulty):
+                    #print("removed because: ",abs(self.coords[self.platform-2].getx1() - self.coords[self.platform-2].getx1()) , " or: ",abs(self.coords[self.platform - 2].getx2() - self.coords[self.platform - 2].getx2())  )
+                    self.coords.pop()
+                    self.platform-=1
+        if self.platform <= self.numberOfPlatforms:
+            self.platform+=1
+            self.createPlatforms()
 
     def draw(self, canvas):
-        platform = Platform2(self.yVal)
-        self.coords.append(platform)
-        if self.platform == 1:
-            self.drawLines(canvas)
-        elif self.platform < self.numberOfPlatforms:
-            if abs(self.coords[self.platform-2].getx1() - abs(self.coords[self.platform-2].getx2()) > self.DISTANCE*self.difficulty or
-                   abs(self.coords[self.platform - 2].getx2() - abs(self.coords[self.platform - 2].getx1()) > self.DISTANCE * self.difficulty)):
-                pass
-            else:
-                print("removed")
-                self.platform -= 1
-                self.draw(canvas)
-        else:
-            self.coords.pop()
+
         self.drawLines(canvas)
-        if self.platform < self.numberOfPlatforms:
-            self.platform += 1
 
     def drawLines(self, canvas):
-        for i in range(self.platform - 1):
+        for i in range(self.platform-1):
             #print(self.coords)
-            y = (i + 1) * self.yVal
+            #y = (i + 1) * self.yVal
             canvas.draw_line(self.coords[i].getp1().getP(),self.coords[i].getp2().getP(), 4, "red")
+            #print(i)
+            #print(self.coords)
+            #print(self.coords[i].getp1().getP(),self.coords[i].getp2().getP() )
             #print(self.platform)
             # self.frameCount+=1
             # if self.frameCount % 30 == 0:
             #     self.yVal +=1
+    def getNumberOfPlatforms(self):
+        return self.numberOfPlatforms
+    def getCoords(self):
+        return self.coords
