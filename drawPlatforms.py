@@ -1,6 +1,7 @@
 from Vector import *
 import random
 from Platform2 import *
+import SimpleGUICS2Pygame.simpleguics2pygame as simplegui
 class drawPlatforms:
     def __init__(self,difficulty,numberOfPlatforms):
         if difficulty == "easy":
@@ -13,14 +14,14 @@ class drawPlatforms:
         self.DISTANCE = 100
         self.coords = []
         self.platform = 1
-        self.yVal = 140
+        self.yVal = 90
         self.frameCount = 0
         self.numberOfPlatforms = numberOfPlatforms
         self.createPlatforms()
 
     def createPlatforms(self):
         if self.platform <= self.numberOfPlatforms:
-            temp = Platform2(620 - self.yVal * self.platform)
+            temp = Platform2(820 - self.yVal * self.platform)
             print("made platform: ",self.platform)
             self.coords.append(temp)
             if self.platform > 1:
@@ -41,7 +42,9 @@ class drawPlatforms:
         for i in range(self.platform-1):
             #print(self.coords)
             #y = (i + 1) * self.yVal
-            canvas.draw_line(self.coords[i].getp1().getP(),self.coords[i].getp2().getP(), 4, "red")
+            #canvas.draw_line(self.coords[i].getp1().getP(),self.coords[i].getp2().getP(), self.coords[i].thickness, "red")
+            img = simplegui.load_image("https://i.imgur.com/HocnWqj.png")
+            canvas.draw_image(img,(128/2,32/2),(128,32),(self.coords[i].getp1().getP()[0]+(self.coords[i].getp2().getP()[0]-self.coords[i].getp1().getP()[0])/2,self.coords[i].getp1().getP()[1]),(abs(self.coords[i].getp2().getP()[0] - self.coords[i].getp1().getP()[0]),self.coords[i].thickness*16))
             #print(i)
             #print(self.coords)
             #print(self.coords[i].getp1().getP(),self.coords[i].getp2().getP() )
