@@ -121,11 +121,17 @@ class Player:
 
         if key == simplegui.KEY_MAP[self.keyAttackLeft]:
             self.attackLeft = False
-            self.spriteMode = 'lStand'
+            if self.moveLeft == True:
+                self.spriteMode = 'lRun'
+            else:
+                self.spriteMode = 'lStand'
 
         if key == simplegui.KEY_MAP[self.keyAttackRight]:
             self.attackRight = False
-            self.spriteMode = 'rStand'
+            if self.moveRight == True:
+                self.spriteMode = 'rRun'
+            else:
+                self.spriteMode = 'rStand'
 
     def collide(self):
         pass
