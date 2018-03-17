@@ -7,7 +7,7 @@ from Vector import *
 
 class Player:
 
-    def __init__(self, startingpos, spritesheet,width,height,rows,columns, up, left, down, right,attack,lifepoints):
+    def __init__(self, startingpos, spritesheet,width,height,rows,columns, up, left, down, right,attack, scoreCount, lifePoints):
             self.GRAVITY = -9.81
             self.pos = startingpos
             self.spriteSheet = simplegui.load_image(spritesheet)
@@ -16,7 +16,6 @@ class Player:
             self.down = down
             self.right = right
             self.attack = attack
-            self.lifePoints = lifepoints
             self.moveRight = False
             self.moveLeft = False
             self.moveUp = False
@@ -36,6 +35,10 @@ class Player:
             self.frameIndex = [self.COLUMNS, self.ROWS]
             self.frameCount = 0
             #/sprite
+            
+            self.scoreCount = scoreCount
+            self.lifePoints = lifePoints
+            
     def keyDown(self, key):
 
         if key == simplegui.KEY_MAP[self.right]:
