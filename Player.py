@@ -86,7 +86,7 @@ class Player:
         #     #self.velocity = self.velocity.multiplyVectors(Vector(0,0))
         #     self.velocity = Vector(0,0)
         # #     self.pos =  Vector(self.pos.getP()[0],500-self.frameHeight/2)
-        if not self.colliding and self.pos.getP()[1] < 500-self.frameHeight/2:
+        if not self.colliding and self.pos.getP()[1] < 700-self.frameHeight/2:
             self.velocity.subtract(Vector(0, self.GRAVITY))
         print("-----------")
         #
@@ -127,7 +127,7 @@ class Player:
         #################################
 
         #################################
-        if self.pos.getP()[0] > 500+self.frameHeight/2:
+        if self.pos.getP()[0] >500+self.frameHeight/2:
             self.pos = Vector(0,self.pos.getP()[1])
         elif self.pos.getP()[0] < 0:
             self.pos = Vector(500-self.frameHeight/2,self.pos.getP()[1])
