@@ -111,12 +111,10 @@ class Player:
 
         if key == simplegui.KEY_MAP[self.keyAttackLeft]:
             self.attackLeft = False
-            self.moveLeft = False
             self.spriteMode = 'lStand'
 
         if key == simplegui.KEY_MAP[self.keyAttackRight]:
             self.attackRight = False
-            self.moveRight = False
             self.spriteMode = 'rStand'
 
     def imgUpdate(self):
