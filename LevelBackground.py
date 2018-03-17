@@ -25,12 +25,12 @@ class LevelBackground:
             if self.timer % 3 == 0:
                 canvas.draw_image(self.backgroundImage, (self.imgWidth / 2, self.imgHeight / 2), (self.imgWidth, self.imgHeight),
                                   (self.imgWidth / 2, self.position1), (self.imgWidth, self.imgHeight))
-                self.position1 = self.position1 + 1
+                self.position1 += 1
                 self.timer = self.timer + 1
             else:
                 canvas.draw_image(self.backgroundImage, (self.imgWidth / 2, self.imgHeight / 2), (self.imgWidth, self.imgHeight),
                                   (self.imgWidth / 2, self.position1), (self.imgWidth, self.imgHeight))
-                self.timer = self.timer + 1
+                self.timer += 1
         else:
             canvas.draw_image(self.backgroundImage, (self.imgWidth / 2, self.imgHeight / 2), (self.imgWidth, self.imgHeight),
                               (self.imgWidth / 2, self.position1), (self.imgWidth, self.imgHeight))
@@ -41,11 +41,11 @@ class LevelBackground:
                 canvas.draw_image(self.backgroundImage, (self.imgWidth / 2, self.imgHeight / 2), (self.imgWidth, self.imgHeight),
                                   (self.imgWidth / 2, self.position2), (self.imgWidth, self.imgHeight))
                 self.position2 = self.position2 + 1
-                self.timer = self.timer + 1
+                self.timer += 1
             else:
                 canvas.draw_image(self.backgroundImage, (self.imgWidth / 2, self.imgHeight / 2), (self.imgWidth, self.imgHeight),
                                   (self.imgWidth / 2, self.position2), (self.imgWidth, self.imgHeight))
-                self.timer = self.timer + 1
+                self.timer += 1
         else:
             canvas.draw_image(self.backgroundImage, (self.imgWidth / 2, self.imgHeight / 2), (self.imgWidth, self.imgHeight),
                               (self.imgWidth / 2, self.position2), (self.imgWidth, self.imgHeight))
