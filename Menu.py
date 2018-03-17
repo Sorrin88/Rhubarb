@@ -6,6 +6,7 @@ except:
 HEIGHT = 700
 WIDTH = 500
 
+
 class Button:
     def __init__(self, pos, image, active_image, image_center, image_size, action):
         self.pos = pos
@@ -17,7 +18,7 @@ class Button:
         self.selected = False
 
     def draw(self, canvas):
-        for b in button_list:
+        for b in Menu.button_list:
             if not self.selected:
                 canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, (self.image_size[0]/2, self.image_size[1]/2))
             else:
@@ -27,7 +28,7 @@ class Button:
         self.action()
 
     def in_button(self, pos):
-        for b in button_list:
+        for b in Menu.button_list:
             if pos[0] > (self.pos[0] - self.image_size[0]/4) and pos[0] < (self.pos[0] + (self.image_size[0]/4)):
                 if pos[1] > (self.pos[1] - self.image_size[1]/4) and pos[1] < (self.pos[1] + (self.image_size[1]/4)):
                     self.set_selected(True)
@@ -37,77 +38,87 @@ class Button:
 
     def mouse_handler(self,pos):
         print(pos)
-        for b in button_list:
+        for b in Menu.button_list:
             b.in_button(pos) #for each button in the list, check if the mouseclick is on button or not
-        for b in button_list2:
+        for b in Menu.button_list2:
             b.in_button(pos)
 
-#loading button images
-play_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/playbutton.png')
-play_active = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/playbuttonactive.png')
-exit_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/exitbutton.png')
-exit_active = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/exitbuttonactive.png')
-how_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/howbutton.png')
-how_active = simplegui.load_image('hhttps://raw.githubusercontent.com/Sorrin88/Rhubarb/master/howbuttonactive.png')
-back_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/backButton.png')
-back_active = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/backButtonactive.png')
+class Menu:
+    def __init__(self):
+        self.game_name = simplegui.load_image('https://i.imgur.com/mZmXadK.png')
+        self.bg_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/whiteBG.png')
+        self.how_to_play_screen = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/how_to_play_screen.png')
 
-#load game name image and bg image
-game_name = simplegui.load_image('https://i.imgur.com/mZmXadK.png')
-bg_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/whiteBG.png')
-how_to_play_screen = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/how_to_play_screen.png')
+        # loading button images
+        self.play_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/playbutton.png')
+        self.play_active = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/playbuttonactive.png')
+        self.exit_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/exitbutton.png')
+        self.exit_active = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/exitbuttonactive.png')
+        self.how_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/howbutton.png')
+        self.how_active = simplegui.load_image('hhttps://raw.githubusercontent.com/Sorrin88/Rhubarb/master/howbuttonactive.png')
+        self.back_image = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/backButton.png')
+        self.back_active = simplegui.load_image('https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/backButtonactive.png')
 
-#define button functions
-def play():
-    print("button was pressed") #replace with function to start game
-    play_button.selected = False #call this to stop the function endlessly repeating
+        # instantiating buttons
+        self.play_button = Button((100, HEIGHT * 0.75), self.play_image, self.play_active,
+                                  (self.play_image.get_width() / 2, self.play_image.get_height() / 2),
+                                  (self.play_image.get_width(), self.play_image.get_height()), self.play)
+        self.exit_button = Button((400, HEIGHT * 0.75), self.exit_image, self.exit_active,
+                             (self.exit_image.get_width() / 2, self.exit_image.get_height() / 2),
+                             (self.exit_image.get_width(), self.exit_image.get_height()), self.exit)
+        self.how_button = Button((250, HEIGHT * 0.75), self.how_image, self.how_active,
+                            (self.how_image.get_width() / 2, self.how_image.get_height() / 2),
+                            (self.how_image.get_width(), self.how_image.get_height()), self.how)
+        self.back_button = Button((WIDTH - 70, HEIGHT - 50), self.back_image, self.back_active,
+                             (self.back_image.get_width() / 2, self.back_image.get_height() / 2),
+                             (self.back_image.get_width(), self.back_image.get_height()), self.back)
 
-def exit():
-    print("exit button was pressed") #replace with code to stop everything running and close window
-    exit_button.selected = False #call this to stop the function endlessly repeating
 
-def how(): #when how button pressed draw how to play screen
-    frame.set_draw_handler(drawHowScreen)
-    how_button.selected = False
+        # add buttons to a list
+        self.button_list = [self.play_button, self.exit_button, self.how_button]
+        self.button_list2 = [self.back_button]  # i had to make a second list sorry is this is confusing but hey it works
 
-def back(): #switch back to menu if back button pressed
-    frame.set_draw_handler(drawMenu)
-    back_button.selected = False
+    # define button functions
+    def play(self):
+        print("button was pressed")  # replace with function to start game
+        self.play_button.selected = False  # call this to stop the function endlessly repeating
 
-#instantiating buttons
-play_button = Button((100, HEIGHT*0.75), play_image, play_active, (play_image.get_width() / 2, play_image.get_height() / 2),
-                 (play_image.get_width(), play_image.get_height()), play)
-exit_button = Button((400, HEIGHT*0.75), exit_image, exit_active, (exit_image.get_width() / 2, exit_image.get_height() / 2),
-                 (exit_image.get_width(), exit_image.get_height()), exit)
-how_button = Button((250, HEIGHT*0.75), how_image, how_active, (how_image.get_width() / 2, how_image.get_height() / 2),
-                 (how_image.get_width(), how_image.get_height()), how)
-back_button = Button((WIDTH - 70, HEIGHT - 50), back_image, back_active, (back_image.get_width() / 2, back_image.get_height() / 2),
-                 (back_image.get_width(), back_image.get_height()), back)
+    def exit(self):
+        print("exit button was pressed")  # replace with code to stop everything running and close window
+        self.exit_button.selected = False  # call this to stop the function endlessly repeating
 
-#add buttons to a list
-button_list = [play_button, exit_button, how_button]
-button_list2 = [back_button] # i had to make a second list sorry is this is confusing but hey it works
+    def how(self):  # when how button pressed draw how to play screen
+        frame.set_draw_handler(Menu.drawHowScreen)
+        self.how_button.selected = False
 
-def drawHowScreen(canvas):
-    canvas.draw_image(how_to_play_screen, (250, 350), (500, 700), (WIDTH / 2, HEIGHT / 2), (WIDTH, HEIGHT))
-    back_button.draw(canvas)
-    if(back_button.selected == True):
-        back_button.activate()
+    def back(self):  # switch back to menu if back button pressed
+        frame.set_draw_handler(Menu.drawMenu)
+        self.back_button.selected = False
 
-def drawMenu(canvas):
-    canvas.draw_image(bg_image, (300, 400), (600, 800), (WIDTH/2, HEIGHT/2), (WIDTH, HEIGHT))
-    canvas.draw_text("Kev put the farmer sprite here", (WIDTH/2 - 100, HEIGHT/2), 20, 'Black')
+    def drawHowScreen(self, canvas):
+        canvas.draw_image(self.how_to_play_screen, (250, 350), (500, 700), (WIDTH / 2, HEIGHT / 2), (WIDTH, HEIGHT))
+        self.back_button.draw(canvas)
+        if(self.back_button.selected == True):
+            self.back_button.activate()
 
-    #KEVIN PUT YOUR CODE FOR LOADING FARMER SPRITE HERE COS IT NEEDS TO DRAW ON TOP OF BACKGOUND IMAGE
-    
-    canvas.draw_image(game_name, (game_name.get_width() / 2, game_name.get_height() / 2), (game_name.get_width(), game_name.get_height()),
-                      (WIDTH/2, HEIGHT/4), (500, 250))
-    for b in button_list:
-        b.draw(canvas)
-        if(b.selected == True):
-            b.activate()
+    def drawMenu(self, canvas):
+        canvas.draw_image(self.bg_image, (300, 400), (600, 800), (WIDTH/2, HEIGHT/2), (WIDTH, HEIGHT))
+        canvas.draw_text("Kev put the farmer sprite here", (WIDTH/2 - 100, HEIGHT/2), 20, 'Black')
 
+        #KEVIN PUT YOUR CODE FOR LOADING FARMER SPRITE HERE COS IT NEEDS TO DRAW ON TOP OF BACKGOUND IMAGE
+
+        canvas.draw_image(self.game_name, (self.game_name.get_width() / 2, self.game_name.get_height() / 2), (self.game_name.get_width(), self.game_name.get_height()),
+                          (WIDTH/2, HEIGHT/4), (500, 250))
+        for b in self.button_list:
+            b.draw(canvas)
+            if(b.selected == True):
+                b.activate()
+
+
+
+#MAIN
+Menu = Menu()
 frame = simplegui.create_frame("Menu", WIDTH, HEIGHT)
-frame.set_mouseclick_handler(play_button.mouse_handler)
-frame.set_draw_handler(drawMenu)
+frame.set_mouseclick_handler(Menu.play_button.mouse_handler)
+frame.set_draw_handler(Menu.drawMenu)
 frame.start()
