@@ -37,42 +37,116 @@ class Player:
             self.frameCount = 0
             #/sprite
     def keyDown(self, key):
+
         if key == simplegui.KEY_MAP[self.right]:
             self.moveRight = True
             self.moveLeft = False
+            self.spriteMode = 'rRun'
 
         if key == simplegui.KEY_MAP[self.left]:
             self.moveLeft = True
             self.moveRight = False
+            self.spriteMode = 'lRun'
 
-        if key == simplegui.KEY_MAP[self.up]:
+        if key == simplegui.KEY_MAP[self.up] or key == simplegui.KEY_MAP[self.up2]:
             self.moveUp = True
-        #    self.moveDown = False
-        if key == simplegui.KEY_MAP[self.attack]:
-            self.attacking = True
-        if key == simplegui.KEY_MAP[self.down]:
-            self.moveDown = True
-        #     self.moveUp = False
-    def keyUp(self, key):
-        if key == simplegui.KEY_MAP[self.right]:
+            if self.spriteMode == 'lRun' or self.spriteMode == 'lStand' or self.spriteMode == 'lAttack':
+                self.spriteMode = 'lJump'
+            elif self.spriteMode == 'rRun' or self.spriteMode == 'rStand' or self.spriteMode == 'rAttack':
+                self.spriteMode = 'rJump'
+
+        if key == simplegui.KEY_MAP[self.keyAttackUp]:
+
+            self.attackUp = True
+            if self.spriteMode == 'lRun' or self.spriteMode == 'lStand' or self.spriteMode == 'lJump':
+                self.spriteMode = 'lAttackUp'
+            elif self.spriteMode == 'rRun' or self.spriteMode == 'rStand' or self.spriteMode == 'rJump':
+                self.spriteMode = 'rAttackUp'
+
+        if key == simplegui.KEY_MAP[self.keyAttackLeft]:
+            self.attackLeft = True
             self.moveRight = False
+            self.spriteMode = 'lAttack'
+
+        if key == simplegui.KEY_MAP[self.keyAttackRight]:
+            self.attackRight = True
+            self.moveLeft = False
+            self.spriteMode = 'rAttack'
+
+    def keyUp(self, key):
+
+        if key == simplegui.KEY_MAP[self.right]:
+            self.moveLeft = False
+            self.moveRight = False
+            if self.spriteMode != 'rAttack':
+                self.spriteMode = 'rStand'
+
         if key == simplegui.KEY_MAP[self.left]:
             self.moveLeft = False
-        if key == simplegui.KEY_MAP[self.down]:
-            self.moveDown = False
-        if key == simplegui.KEY_MAP[self.up]:
+            self.moveRight = False
+            if self.spriteMode != 'lAttack':
+                self.spriteMode = 'lStand'
+
+        if key == simplegui.KEY_MAP[self.up] or key == simplegui.KEY_MAP[self.up2]:
             self.moveUp = False
-        if key == simplegui.KEY_MAP[self.attack]:
-            self.attacking = False
-    def collide(self):
-        self.velocity.multiplyVectors(Vector(1,0))
-        #self.colliding = True
-        #self.addGravity()
+            if self.spriteMode == 'lJump' and self.moveLeft == True:
+                self.spriteMode = 'lRun'
+            elif self.spriteMode == 'rJump' and self.moveRight == True:
+                self.spriteMode = 'rRun'
+            elif self.spriteMode == 'lJump':
+                self.spriteMode = 'lStand'
+            elif self.spriteMode == 'rJump':
+                self.spriteMode = 'rStand'
+
+        if key == simplegui.KEY_MAP[self.keyAttackUp]:
+            self.attackUp = False
+            if self.spriteMode == 'lAttackUp' and self.moveLeft == True:
+                self.spriteMode = 'lRun'
+            elif self.spriteMode == 'rAttackUp' and self.moveRight == True:
+                self.spriteMode = 'rRun'
+            elif self.spriteMode == 'lAttackUp':
+                self.spriteMode = 'lStand'
+            elif self.spriteMode == 'rAttackUp':
+                self.spriteMode = 'rStand'
+
+        if key == simplegui.KEY_MAP[self.keyAttackLeft]:
+            self.attackLeft = False
+            self.moveLeft = False
+            self.spriteMode = 'lStand'
+
+        if key == simplegui.KEY_MAP[self.keyAttackRight]:
+            self.attackRight = False
+            self.moveRight = False
+            self.spriteMode = 'rStand'
+
     def imgUpdate(self):
-        if self.frameCount % 15 == 0:
-            self.frameIndex[0] = (self.frameIndex[0] + 1) % self.COLUMNS
-            if self.frameIndex[0] == 0:
-                self.frameIndex[1] = (self.frameIndex[1] + 1) % self.ROWS
+
+        if self.spriteMode == 'rStand':
+            self.frameIndex = (0, 2)
+        elif self.spriteMode == 'lStand':
+            self.frameIndex = (0, 3)
+        elif self.spriteMode == 'rJump':
+            self.frameIndex = (0, 4)
+        elif self.spriteMode == 'lJump':
+            self.frameIndex = (0, 5)
+        else:
+            if self.spriteMode == 'rRun':
+                self.currentRow = 0
+            elif self.spriteMode == 'lRun':
+                self.currentRow = 1
+            elif self.spriteMode == 'rAttack':
+                self.currentRow = 6
+            elif self.spriteMode == 'lAttack':
+                self.currentRow = 7
+            elif self.spriteMode == 'rAttackUp':
+                self.currentRow = 8
+            elif self.spriteMode == 'lAttackUp':
+                self.currentRow = 9
+
+            i = self.frameIndex[0]
+            if self.frameCount % 8 == 0:
+                i = (self.frameIndex[0] + 1) % self.COLUMNS
+            self.frameIndex = (i, self.currentRow)
 
 
     def addGravity(self):
