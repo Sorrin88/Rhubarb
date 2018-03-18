@@ -7,10 +7,10 @@ from Vector import Vector
 
 class Monster:
 
-    def __init__(self, pos, velocity, difficulty, level, player):
+    def __init__(self, pos, level, player):
 
         self.pos = pos
-        self.velocity = velocity
+        self.velocity = Vector(0, 0)
 
         self.spriteSheet = simplegui.load_image('https://i.imgur.com/LROJe4y.png')
         self.spriteSheetWidth = 384
@@ -25,22 +25,10 @@ class Monster:
         self.frameCount = 0
         self.orientation = 'right'
 
-        self.difficulty = difficulty
+        level = level
 
-        if difficulty == 'easy':
-            difficulty = 1
-        elif difficulty =='medium':
-            difficulty = 2
-        elif difficulty == 'hard':
-            difficulty = 3
-        else:
-            print("you can't spell")
-            difficulty = 50
-
-        self.health = difficulty
-        self.speed = difficulty
-
-        self.level = level
+        self.health = level
+        self.speed = level
 
         self.player = player
 
@@ -93,7 +81,7 @@ class Monster:
             if self.pos.x >= 300:
                 self.orientation = 'left'
             self.imgUpdate()
-            self.velocity = Vector(1., 0).multiply(self.speed)
+            self.velocity = Vector(1, 0).multiply(self.speed)
 
         self.frameCount+=1
 
