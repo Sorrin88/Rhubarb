@@ -2,7 +2,8 @@ try:
     import simplegui
 except:
     import SimpleGUICS2Pygame.simpleguics2pygame as simplegui
-
+from pygame import *
+mixer.init()
 HEIGHT = 700
 WIDTH = 500
 
@@ -106,6 +107,8 @@ class Menu:
             'https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/backButton.png')
         self.back_active = simplegui.load_image(
             'https://raw.githubusercontent.com/Sorrin88/Rhubarb/master/backButtonactive.png')
+        mixer.music.load("Feel Good Inc. [8 Bit Tribute to Gorillaz] - 8 Bit Universe.mp3")  ## - music for menu 
+        mixer.music.play(-1)
 
         # instantiating buttons
         self.play_button = Button((100, HEIGHT * 0.75), self.play_image, self.play_active,
@@ -130,6 +133,9 @@ class Menu:
 
     # define button functions
     def play(self):
+        mixer.stop()
+        mixer.music.load("All Star 8 Bit.mp3")
+        mixer.music.play(-1)
         print("button was pressed")  # replace with function to start game
         self.play_button.selected = False  # call this to stop the function endlessly repeating
 
