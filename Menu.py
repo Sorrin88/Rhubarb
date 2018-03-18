@@ -142,6 +142,7 @@ class Menu:
     def exit(self):
         print("exit button was pressed")  # replace with code to stop everything running and close window
         self.exit_button.selected = False  # call this to stop the function endlessly repeating
+        frame.stop()
 
     def how(self):  # when how button pressed draw how to play screen
         frame.set_draw_handler(Menu.drawHowScreen)
