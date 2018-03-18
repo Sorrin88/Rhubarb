@@ -8,7 +8,7 @@ class Interaction:
 
     def update(self):
         if (self.platform.distanceTo(self.object.pos) < (self.platform.thickness + self.object.frameHeight/2) and
-            self.platform.covers(self.object.pos))and self.object.pos.getP()[1]-self.object.frameHeight/2<self.platform.p1.getP()[1]:
+            self.platform.covers(self.object.pos))and self.object.pos.y < self.platform.p1.y - self.platform.thickness:#self.object.pos.y-self.object.frameHeight<self.platform.p1.y+self.platform.thickness:
             #self.object.pos = Vector(self.object.pos.getP()[0],self.platform.p1.getP()[1])
             if not self.object.colliding:
                 self.object.collide()
@@ -30,4 +30,4 @@ class Interaction:
             print(self.platform.yCoord)
             #print("clearly still colliding")
             self.object.velocity = Vector(0, 0)
-            self.object.pos = Vector(self.object.pos.getP()[0], self.platform.p1.getP()[1]-self.object.frameHeight/2-self.platform.thickness)
+            self.object.pos = Vector(self.object.pos.getP()[0], self.platform.p1.getP()[1]-self.object.frameHeight/2-self.platform.thickness/2)

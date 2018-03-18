@@ -4,9 +4,15 @@ class Platform2:
     def __init__(self,yCoord):
         self.yCoord = yCoord
         self.p1 = Vector(random.randint(0,500),self.yCoord)
-        self.p2 = Vector(self.p1.getP()[0] + random.randint(-500, 500), self.yCoord)
-        while(self.p1.getP()[0] == self.p2.getP()[0]) or abs(self.p2.getP()[0]-self.p1.getP()[0])<=50 or abs(self.p2.getP()[0]-self.p1.getP()[0])>=250:
-            self.p2 = Vector(self.p1.getP()[0] + random.randint(-500, 500), self.yCoord)
+        self.p2 = Vector(self.p1.x + random.randint(-500, 500), self.yCoord)
+        while(self.p1.x == self.p2.x) or abs(self.p2.x-self.p1.x)<=200 or abs(self.p2.x-self.p1.x)>=250:
+            self.p2 = Vector(self.p1.x + random.randint(-500, 500), self.yCoord)
+        if self.p2.x >=500:
+            self.p2.x -=100
+            self.p1.x -= 100
+        if self.p1.x <=0:
+            self.p1.x +=100
+            self.p2.x += 100
         self.unit = (self.p2 - self.p1).normalize()
         self.normal = self.rotateAnti(self.unit)
         self.thickness = 4
