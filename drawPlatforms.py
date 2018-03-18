@@ -14,19 +14,18 @@ class drawPlatforms:
         self.DISTANCE = 100
         self.coords = []
         self.platform = 1
-        self.yVal = 90
+        self.yVal = 200
         self.frameCount = 0
         self.numberOfPlatforms = numberOfPlatforms
         self.createPlatforms()
 
     def createPlatforms(self):
         if self.platform <= self.numberOfPlatforms:
-            temp = Platform2(820 - self.yVal * self.platform)
-            print("made platform: ",self.platform)
+            temp = Platform2(self.yVal * self.platform)
+            #print("made platform: ",self.platform)
             self.coords.append(temp)
             if self.platform > 1:
-                if not (abs(self.coords[self.platform-1].getx1() - self.coords[self.platform-2].getx1()) > self.DISTANCE*self.difficulty or \
-                    abs(self.coords[self.platform - 1].getx2() - self.coords[self.platform - 2].getx2()) > self.DISTANCE * self.difficulty):
+                if not (abs(self.coords[self.platform-1].getx1() - self.coords[self.platform-2].getx1()) > self.DISTANCE*self.difficulty or abs(self.coords[self.platform - 1].getx2() - self.coords[self.platform - 2].getx2()) > self.DISTANCE * self.difficulty):
                     #print("removed because: ",abs(self.coords[self.platform-2].getx1() - self.coords[self.platform-2].getx1()) , " or: ",abs(self.coords[self.platform - 2].getx2() - self.coords[self.platform - 2].getx2())  )
                     self.coords.pop()
                     self.platform-=1
@@ -44,6 +43,7 @@ class drawPlatforms:
             #y = (i + 1) * self.yVal
             #canvas.draw_line(self.coords[i].getp1().getP(),self.coords[i].getp2().getP(), self.coords[i].thickness, "red")
             img = simplegui.load_image("https://i.imgur.com/HocnWqj.png")
+            #self.coords[i].yCoord +=1
             canvas.draw_image(img,(128/2,32/2),(128,32),(self.coords[i].getp1().getP()[0]+(self.coords[i].getp2().getP()[0]-self.coords[i].getp1().getP()[0])/2,self.coords[i].getp1().getP()[1]),(abs(self.coords[i].getp2().getP()[0] - self.coords[i].getp1().getP()[0]),self.coords[i].thickness*16))
             #print(i)
             #print(self.coords)
