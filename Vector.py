@@ -50,6 +50,9 @@ class Vector:
         self.x-=other.x
         self.y-=other.y
         return self
+   
+    def subtract2(self, other):
+        return self.add(-other)
 
     def __sub__(self, other):
         return self.copy().subtract(other)
@@ -88,6 +91,9 @@ class Vector:
     def getNormalized(self):
         mag = self.getMagnitude()
         return self.x/mag, self.y/mag
+    
+    def getNormalized2(self):
+        return self.copy().normalize()
 
     # Returns the dot product of this vector with another one
     def dot(self, other):
