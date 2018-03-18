@@ -17,6 +17,7 @@ class ChickenMonster2(Monster):
         self.columns = 2
         self.spriteSheet = simplegui.load_image('https://i.imgur.com/OFzdNYI.png')
         self.spriteSheetWidth = 256
+        self.acc = 1
 
 #override Monster's collide method
 
@@ -41,11 +42,10 @@ class ChickenMonster2(Monster):
 
         self.imgUpdate()
         self.frameCount += 1
-        direction = sub.getNormalized()*self.speed
-        if sub.length() < 150 and sub.length() > 50:
-            direction.multiply(0.99)
-        elif sub.length() <=50:
-            direction.multiply(1.1)
-        else:
-            direction.multiply(0.6)
+        if sub.length() < 150:
+            if self.acc < 1.8: # max acceleration
+                self.acc +=0.2
+        direction = sub.getNormalized() * self.acc * self.speed
+
+        direction.multiply(0.9)
         self.pos.add(direction)
