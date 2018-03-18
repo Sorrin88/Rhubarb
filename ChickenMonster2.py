@@ -9,9 +9,9 @@ from Monster import Monster
 
 class ChickenMonster2(Monster):
 
-    def __init__(self, pos:Vector, difficulty, level, player):
+    def __init__(self, pos:Vector, level, player):
 
-        Monster.__init__(self, pos, difficulty, level, player)
+        Monster.__init__(self, pos, level, player)
         #other attributes etc inherited from Monster
 
         self.columns = 2
@@ -29,8 +29,6 @@ class ChickenMonster2(Monster):
                           (self.frameWidth, self.frameHeight), self.pos.getP(), (self.frameWidth, self.frameHeight))
 
         sub = self.player.pos.copy().subtract(self.pos)
-
-
 
         if sub.length() > 10:
             if self.player.pos.x < self.pos.x:
