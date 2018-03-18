@@ -21,32 +21,29 @@ class Vector:
 
         # Returns a tuple with the point corresponding to the vector
 
-    def inte(self):
-        return Vector(int(self.x), int(self.y))
-
     def getP(self):
         return (self.x, self.y)
 
-    def getPx(self):
-        return (self.x)
-
-    def getPy(self):
-        return (self.y)
-
     # Returns a copy of the vector
     def copy(self):
-        return (self.x,self.y)
+        return Vector(self.x, self.y)
 
     # Adds another vector to this vector
     def add(self, other):
-        #result = (self.x+other.x,self.y+other.y)
-        self.x+=other.x
-        self.y+=other.y
+        #print(self.x)
+        #print(other.x)
+        self.x += other.x
+        self.y += other.y
         return self
 
+    def __add__(self, other):
+        return self.copy().add(other);
     # Negates the vector (makes it point in the opposite direction)
     def negate(self):
         return self.multiply(-1)
+
+    def __neg__(self):
+        return self.copy().negate()
 
     # Subtracts another vector from this vector
     def subtract(self, other):
@@ -54,12 +51,22 @@ class Vector:
         self.y-=other.y
         return self
 
+    def __sub__(self, other):
+        return self.copy().subtract(other)
+
     # Multiplies the vector by a scalar
     def multiply(self, k):
         #return (self.x*k,self.y*k)
         self.x*=k
         self.y*=k
         return self
+
+    def __mul__(self, k):
+        return self.copy().multiply(k)
+
+    def __rmul__(self, k):
+        return self.copy().multiply(k)
+
     def multiplyVectors(self, other):
         #return (self.x*k,self.y*k)
         self.x = self.x*other.x
@@ -67,13 +74,16 @@ class Vector:
         return self
     # Divides the vector by a scalar
     def divide(self, k):
-        return (self.x/k,self.y/k)
+        return self.multiply(1/k)
+
+    def __truediv__(self, k):
+        return self.copy().divide(k)
 
     def getMagnitude(self):
         return math.sqrt(self.x**self.x + self.y**self.y)
     # Normalizes the vector
     def normalize(self):
-        return self.divide(self.lengh())
+        return self.divide(self.length())
     # Returns a normalized version of the vector
     def getNormalized(self):
         mag = self.getMagnitude()
@@ -81,12 +91,12 @@ class Vector:
 
     # Returns the dot product of this vector with another one
     def dot(self, other):
-        return self.x * other.x + self.y + other.y
+        return self.x * other.x + self.y * other.y
     # Returns the squared length of the vector
     def lengthSquared(self):
         # self.getMagnitude()*self.getMagnitude()
         return self.x**2 + self.y**2
-    def lengh(self):
+    def length(self):
         return math.sqrt(self.lengthSquared())
     # Reflect this vector on a normal
     def reflect(self, normal):
