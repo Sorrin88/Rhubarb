@@ -3,24 +3,14 @@ try:
 except:
     import SimpleGUICS2Pygame.simpleguics2pygame as simplegui
 
-import sys, time, random, math
-from pygame import *
 
 from Player2 import  *
 from Interaction import *
 from drawPlatforms import  *
 from Monster import *
-from LevelBackground import LevelBackground
-from Menu import Menu
-from Level import Level
-from Interaction import Interaction
-from Vector import Vector
-from drawPlatforms import drawPlatforms
-mixer.init()
 
 
 player1 = Player2(Vector(400,400),"https://i.imgur.com/2cnk4Yx.png",496,1160,10,4,'w','a','s','d','up','left','right',10,3)
-lv1background = LevelBackground('https://i.imgur.com/Q7tBgIc.png')
 #platform2 = Platform2(500)
 
 
@@ -46,7 +36,6 @@ print(numberOfPlatforms)
 #print("len interactions: ", len(interactions))
 def draw(canvas):
     global interactions , addedInteractions, numberOfPlatforms , madeGoat,framecount
-    lv1background.update(canvas)
     platforms.draw(canvas)
     if not addedInteractions:
         for i in range(len(platforms.getCoords()) ):
@@ -118,28 +107,6 @@ def keyUp(key):
 def keyDown(key):
     player1.keyDown(key)
     #player2.keyDown(key)
-
-def KeyDown(key):
-    player1.eyDown(key)
-
-play_endless = False
-while play_endless == False:
-    try:
-        menu = Menu()
-        break
-    except TypeError:
-
-        level = Level(1)
-        if level.getLevel() == 1:
-            mixer.music.load("All Star.mp3")
-            mixer.music.play(-1)
-        elif level.getLevel() == 1.5:
-            mixer.music.load("Harder Better Faster Stronger.mp3")
-            mixer.music.play(-1)
-        elif level.getLevel() == 2:
-            mixer.music.load("Feel Good Inc.mp3")
-            mixer.music.play(-1)
-
 frame = simplegui.create_frame("Half-Life 3",500,700)
 frame.set_draw_handler(draw)
 frame.set_keyup_handler(keyUp)
