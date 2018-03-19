@@ -3,16 +3,23 @@ import random
 class Platform2:
     def __init__(self,yCoord):
         self.yCoord = yCoord
-        self.p1 = Vector(random.randint(0,500),self.yCoord)
-        self.p2 = Vector(self.p1.x + random.randint(-500, 500), self.yCoord)
-        while(self.p1.x == self.p2.x) or abs(self.p2.x-self.p1.x)<=200 or abs(self.p2.x-self.p1.x)>=250:
-            self.p2 = Vector(self.p1.x + random.randint(-500, 500), self.yCoord)
-        if self.p2.x >=500:
-            self.p2.x -=100
-            self.p1.x -= 100
-        if self.p1.x <=0:
-            self.p1.x +=100
-            self.p2.x += 100
+        x1 = random.randint(0,500)
+        if (x1<=250):
+            x2 = x1+random.randint(150,300)
+        else:
+            x2 = x1-random.randint(150,300)
+        # self.p1 = Vector(random.randint(0,250),self.yCoord)
+        # self.p2 = Vector(self.p1.x + random.randint(-500, 250), self.yCoord)
+        self.p1 = Vector(x1,yCoord)
+        self.p2 = Vector(x2,yCoord)
+        # while(self.p1.x == self.p2.x) or abs(self.p2.x-self.p1.x)<=200 or abs(self.p2.x-self.p1.x)>=250:
+        #     self.p2 = Vector(self.p1.x + random.randint(-500, 500), self.yCoord)
+        # if self.p2.x >500 or self.p1.x >500:
+        #     self.p2.x -= abs(self.p1.x + self.p2.x /2)
+        #     self.p1.x -= abs(self.p1.x + self.p2.x /2)
+        # if self.p1.x <0 or self.p2.x < 0:
+        #     self.p1.x += abs(self.p1.x + self.p2.x /2)
+        #     self.p2.x += abs(self.p1.x + self.p2.x /2)
         self.unit = (self.p2 - self.p1).normalize()
         self.normal = self.rotateAnti(self.unit)
         self.thickness = 4
