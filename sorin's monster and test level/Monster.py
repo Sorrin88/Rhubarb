@@ -48,7 +48,14 @@ class Monster:
         x0 = player.pos.x
         y1 = self.pos.y
         y0 = player.pos.y
-        return (x0-x1)*2+(y0-y1)*2>=(r0-r1)*2 and (x0-x1)*2+(y0-y1)*2<=(r0+r1)*2 and abs(y1-y0) < self.frameHeight/2 #(r0-r1)*2<=(x0-x1)*2+(y0-y1)*2<=(r0+r1)*2
+
+        r2 = player.frameHeight/2
+        r3 = self.frameHeight/2
+        x2 = player.pos.x
+        x3 = self.pos.x
+        y2 = player.pos.y
+        y3 = self.pos.y
+        return (((x0-x1)*2+(y0-y1)*2>=(r0-r1)*2 and (x0-x1)*2+(y0-y1)*2<=(r0+r1)*2)or((x3-x2)*2+(y3-y2)*2>=(r3-r2)*2 and (x3-x2)*2+(y3-y2)*2<=(r3+r2)*2)) and abs(y1-y0) < self.frameHeight/2 #(r0-r1)*2<=(x0-x1)*2+(y0-y1)*2<=(r0+r1)*2
     def hit(self,player):
         playerp1 = Vector(player.pos.x+player.frameWidth/2,player.pos.y+player.frameHeight/2)
         playerp2 = Vector(player.pos.x+player.frameWidth/2,player.pos.y-player.frameHeight/2)
