@@ -7,9 +7,9 @@ from Vector import Vector
 
 class Monster:
 
-    def __init__(self, pos, level, player):
+    def __init__(self,level, player, platform):
 
-        self.pos = pos
+        self.pos = Vector(platform.p1.x + platform.p2.x / 2, platform.p1.y)
         self.velocity = Vector(0, 0)
 
         self.spriteSheet = simplegui.load_image('https://i.imgur.com/LROJe4y.png')
@@ -25,12 +25,14 @@ class Monster:
         self.frameCount = 0
         self.orientation = 'right'
 
-        level = level
+        self.level = level
 
         self.health = level
         self.speed = level
 
         self.player = player
+
+        self.platform = platform
 
         self.radius = self.spriteSheetHeight / 2
 
@@ -67,25 +69,25 @@ class Monster:
     def update(self,canvas):
         canvas.draw_image(self.spriteSheet, (self.frameWidth * self.frameIndex[0] + self.frameCentreX,
                                               self.frameHeight * self.frameIndex[1] + self.frameCentreY),
-                          (self.frameWidth, self.frameHeight), self.pos.getP(), (self.frameWidth, self.frameHeight))
+                          (self.frameWidth, self.frameHeight), (self.pos.x, self.pos.y + 23), (self.frameWidth/1.5, self.frameHeight/1.5))
 
         if self.orientation == 'left':
             self.pos.add(self.velocity)
-            if self.pos.x <= 100:
+            if self.pos.x < self.platform.p1.x and self.pos.x < self.platform.p2.x:
                 self.orientation = 'right'
             self.imgUpdate()
             self.velocity = Vector(-1, 0).multiply(self.speed)
 
         elif self.orientation == 'right':
             self.pos.add(self.velocity)
-            if self.pos.x >= 300:
+            if self.pos.x > self.platform.p2.x and self.pos.x > self.platform.p1.x:
                 self.orientation = 'left'
             self.imgUpdate()
             self.velocity = Vector(1, 0).multiply(self.speed)
 
         self.frameCount+=1
 
-        sub = self.player.pos.copy().subtract(self.pos)
+        sub = self.player.pos.copy().subtract2(self.pos)
         if sub.length() <= 50:
             print("GOAT DAMAGE")
 
