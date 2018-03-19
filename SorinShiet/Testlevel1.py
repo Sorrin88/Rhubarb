@@ -12,7 +12,7 @@ from drawPlatforms import *
 from Monster import *
 from LevelBackground import *
 from Menu import *
-from Level import *
+#from Level import *
 from Interaction import *
 from Vector import *
 from drawPlatforms import *
@@ -47,10 +47,11 @@ scoreCount = ScoreCounter(player1)
 lifeBar = LifeBar(player1)
 print(numberOfPlatforms)
 flood = Flood(player1)
-
-
+removedLife = True
 def draw(canvas):
-    global interactions, addedInteractions, numberOfPlatforms, framecount, timer,numberOfGoats,goats
+    global interactions, addedInteractions, numberOfPlatforms, framecount, timer,numberOfGoats,goats,removedLife,scoreCount
+    if framecount % 120 == 0 and framecount !=0:
+        removedLife = False
     time = Timer()
     lv1background.update(canvas)
     platforms.draw(canvas)
@@ -86,7 +87,7 @@ def draw(canvas):
             tempInteraction = Interaction(player1, platforms.coords[i])
         interactions.pop(i)
         interactions.insert(i, tempInteraction)
-        if random.randint(0,1) > 0.5 and framecount % 360 == 0 and numberOfGoats <3 and platforms.coords[i].p1.y < player1.pos.y :  # numberOfPlatforms % 5 == 0 and not madeGoat
+        if random.randint(0,1) > 0.5 and framecount % 60 == 0 and numberOfGoats <3 and platforms.coords[i].p1.y < player1.pos.y :  # numberOfPlatforms % 5 == 0 and not madeGoat
             makeGoat(platforms.coords[i])
             numberOfGoats+=1
         goatsToPop = []
@@ -94,12 +95,16 @@ def draw(canvas):
             if platforms.coords[i] == goats[j].platform:
                 goats[j].pos = Vector(goats[j].pos.x,platforms.coords[i].p1.y-platforms.coords[i].thickness-goats[j].frameHeight/2)
                 goats[j].update(canvas)
-                if goats[j].isColliding(player1):
-                    if goats[j].harmsPlayer(player1):
-                        player1.lifePoints -=1
-                        print("rekt")
-                        goatsToPop.append(goats[j])
-                        numberOfGoats -= 1
+            if goats[j].isColliding(player1):
+                print(goats[j].hit(player1))
+                if goats[j].hit(player1):
+                    goatsToPop.append(goats[j])
+                    numberOfGoats -= 1
+                    player1.scoreCount+=100
+                elif not removedLife:
+                    player1.lifePoints-=1
+                    print("lives:",player1.lifePoints)
+                    removedLife = True
             if goats[j].pos.y > 630:
                 goatsToPop.append(goats[j])
                 numberOfGoats-=1
@@ -113,8 +118,11 @@ def draw(canvas):
         if platforms.coords[i].covers(player1.pos):
             interactions[i].update()
 
-    platforms.draw(canvas)
+    if player1.lifePoints <= 0:
+        #frame.stop()
+        showGameOver()
 
+    platforms.draw(canvas)
     player1.update(canvas)
 
 
@@ -135,14 +143,27 @@ def keyDown(key):
 def KeyDown(key):
     player1.keyDown(key)
 
+def playMenu():
+    frame.set_mouseclick_handler(menu.play_button.mouse_handler)
+    frame.set_draw_handler(menu.drawMenu)
+    frame.start()
+
+def showGameOver():
+    frame.stop()
+    gameOver = GameOver((250, 350))
+    mixer.music.load("Dark Souls - You Died Sound Effect.mp3")
+    mixer.music.play(0)
+    #frame = simplegui.create_frame("Half-Life 3", 500, 700)
+    frame.set_draw_handler(gameOver.draw)
+    frame.start()
+
 
 
 
 frame = simplegui.create_frame("Menu", 500, 700)
 menu = Menu(frame)
-frame.set_mouseclick_handler(menu.play_button.mouse_handler)
-frame.set_draw_handler(menu.drawMenu)
-frame.start()
+playMenu()
+
 if menu.play_button.action:
     level = 1.5
     if level == 1:
@@ -161,17 +182,3 @@ if menu.play_button.action:
     frame.set_keyup_handler(keyUp)
     frame.set_keydown_handler(keyDown)
     frame.start()
-if player1.pos.y > 660:
-    pass
-    #player1.lifePoints = 0
-
-if player1.lifePoints == 0:
-    gameOver = GameOver((250, 350))
-    frame.stop()
-    mixer.music.load("Dark Souls - You Died Sound Effect.mp3")
-    mixer.music.play(0)
-    frame = simplegui.create_frame("Half-Life 3", 500, 700)
-    frame.set_draw_handler(gameOver.draw)
-    frame.start()
-
-
