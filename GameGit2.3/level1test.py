@@ -12,7 +12,6 @@ from drawPlatforms import *
 from Monster import *
 from LevelBackground import *
 from Menu import *
-from Level import *
 from Interaction import *
 from Vector import *
 from drawPlatforms import *
