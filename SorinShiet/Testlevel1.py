@@ -134,6 +134,10 @@ def keyDown(key):
 
 def KeyDown(key):
     player1.keyDown(key)
+
+
+
+
 frame = simplegui.create_frame("Menu", 500, 700)
 menu = Menu(frame)
 frame.set_mouseclick_handler(menu.play_button.mouse_handler)
