@@ -207,10 +207,10 @@ class Player2:
         #         self.velocity.add(Vector(0,9))
         if self.moveDown:
             self.colliding = False
-        if self.moveRight and self.velocity.getP()[0] < 9:
-            self.velocity.add(Vector(9, 0))
-        if self.moveLeft and self.velocity.getP()[0] > -9:
-            self.velocity.add(Vector(-9, 0))
+        if self.moveRight and self.velocity.getP()[0] < 6:
+            self.velocity.add(Vector(6, 0))
+        if self.moveLeft and self.velocity.getP()[0] > -6:
+            self.velocity.add(Vector(-6, 0))
         if self.attacking:
             print("boom")
 
@@ -225,7 +225,7 @@ class Player2:
         # print(500-self.frameHeight/2)
         canvas.draw_image(self.spriteSheet, (self.frameWidth * self.frameIndex[0] + self.frameCentreX,
                                              self.frameHeight * self.frameIndex[1] + self.frameCentreY),
-                          (self.frameWidth, self.frameHeight), self.pos.getP(), (self.frameWidth, self.frameHeight))
+                          (self.frameWidth, self.frameHeight), (self.pos.x, self.pos.y + 23), (self.frameWidth/2, self.frameHeight/2))
         self.imgUpdate()
 
         self.pos.add(self.velocity)
