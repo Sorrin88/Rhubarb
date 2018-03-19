@@ -16,7 +16,7 @@ class ScoreCounter:
 
 
     def update(self, canvas):
-        canvas.draw_text(self.playerScore, (10, 50), 50, 'White')
+        canvas.draw_text("Score: "+ self.playerScore, (10, 30), 20, 'White', 'monospace')
 
 scoretest = ScoreCounter(500)
 
